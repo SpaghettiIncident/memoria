@@ -27,31 +27,50 @@ using UnityEngine.Assertions;
 public class Fade : MonoBehaviour
 {
 	IFade fade;
+	public bool isFinished;
+	float cutoutRange = 1.0f;
 
-	void Start ()
-	{
-		Init ();
+	void Start() {
+		Init();
 		fade.Range = cutoutRange;
 	}
 
-	float cutoutRange;
-
-	void Init ()
-	{
-		fade = GetComponent<IFade> ();
+	void Init() {
+		//		cutoutRange = 1.0f;
+		fade = GetComponent<IFade>();
 	}
 
-	void OnValidate ()
-	{
-		Init ();
+	void OnValidate() {
+		Init();
 		fade.Range = cutoutRange;
 	}
 
-	IEnumerator FadeoutCoroutine (float time, System.Action action)
+	public IEnumerator FadeOutAndWait(float fadeOutTime)
 	{
+		// フェードアウト開始
+		FadeOut(fadeOutTime);
+
+		// フェードアウト処理終了を待つ
+		while (!isFinished) {
+			yield return null;
+		}
+	}
+
+	public IEnumerator FadeInAndWait(float fadeInTime)
+	{
+		FadeIn(fadeInTime);
+
+		while (!isFinished) {
+			yield return null;
+		}
+	}
+
+	public IEnumerator FadeInCoroutine(float time, System.Action action) {
+		isFinished = false;
+
 		float endTime = Time.timeSinceLevelLoad + time * (cutoutRange);
 
-		var endFrame = new WaitForEndOfFrame ();
+		var endFrame = new WaitForEndOfFrame();
 
 		while (Time.timeSinceLevelLoad <= endTime) {
 			cutoutRange = (endTime - Time.timeSinceLevelLoad) / time;
@@ -62,15 +81,17 @@ public class Fade : MonoBehaviour
 		fade.Range = cutoutRange;
 
 		if (action != null) {
-			action ();
+			action();
 		}
+
+		isFinished = true;
 	}
 
-	IEnumerator FadeinCoroutine (float time, System.Action action)
-	{
+	IEnumerator FadeOutCoroutine(float time, System.Action action) {
+		isFinished = false;
 		float endTime = Time.timeSinceLevelLoad + time * (1 - cutoutRange);
-		
-		var endFrame = new WaitForEndOfFrame ();
+
+		var endFrame = new WaitForEndOfFrame();
 
 		while (Time.timeSinceLevelLoad <= endTime) {
 			cutoutRange = 1 - ((endTime - Time.timeSinceLevelLoad) / time);
@@ -81,29 +102,37 @@ public class Fade : MonoBehaviour
 		fade.Range = cutoutRange;
 
 		if (action != null) {
-			action ();
+			action();
 		}
+
+		isFinished = true;
 	}
 
-	public Coroutine FadeOut (float time, System.Action action)
-	{
-		StopAllCoroutines ();
-		return StartCoroutine (FadeoutCoroutine (time, action));
+	public Coroutine FadeIn(float time, System.Action action) {
+		StopAllCoroutines();
+		return StartCoroutine(FadeInCoroutine(time, action));
 	}
 
-	public Coroutine FadeOut (float time)
-	{
-		return FadeOut (time, null);
+	public Coroutine FadeIn(float time) {
+		return FadeIn(time, null);
 	}
 
-	public Coroutine FadeIn (float time, System.Action action)
-	{
-		StopAllCoroutines ();
-		return StartCoroutine (FadeinCoroutine (time, action));
+	public Coroutine FadeOut(float time, System.Action action) {
+		StopAllCoroutines();
+		return StartCoroutine(FadeOutCoroutine(time, action));
 	}
 
-	public Coroutine FadeIn (float time)
+	public Coroutine FadeOut(float time) {
+		return FadeOut(time, null);
+	}
+
+	private void OnGUI()
 	{
-		return FadeIn (time, null);
+		GUI.BeginGroup(new Rect(10, 300, 200, 100));
+
+		GUI.Box(new Rect(0, 0, 200, 100), "FadeInfo");
+		GUI.Label(new Rect(25, 25, 200, 30), "Fade Range : " + fade.Range);
+
+		GUI.EndGroup();
 	}
 }
