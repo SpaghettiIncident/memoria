@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.IO;
 
+using UnityEngine.U2D;
 public class TextController : MonoBehaviour
 {
 	// public string[] scenarios;
@@ -20,19 +21,48 @@ public class TextController : MonoBehaviour
 	private int currentLine = 0;
 	private int lastUpdateCharacter = -1;
 
+
 	// 文字の表示が完了しているかどうか
 	public bool IsCompleteDisplayText {
 		get {
 			return Time.time > timeElapsed + timeUntilDisplay;
 		}
 	}
-
+	SpriteAtlas _spriteAtlas;
+	private GameObject _chara_0;
 	void Start() {
 		string filePath = Util.GetScenarioFilePath("test.csv");
 		LoadScenario(filePath);
 		SetNextLine();
+
+		_chara_0 = new GameObject("SpeakerCharacter");
+		var script = _chara_0.AddComponent<SpeakerCharacter>();
+
+//		_spriteAtlas = Resources.Load<SpriteAtlas>("Character/kohaku");
+//		script.SetSpriteAtlas(_spriteAtlas);
+		//_chara_0 = new GameObject("SpeakerCharacter");
+		//var script = _chara_0.AddComponent<SpeakerCharacter>();
+		//script.SetSpriteAtlas(spriteAtlas);
+
+		//		StartCoroutine(load());
 	}
 
+	IEnumerator load()
+	{
+		var spriteAtlas = Resources.LoadAsync<SpriteAtlas>("Character/kohaku");
+
+		while (!spriteAtlas.isDone)
+		{
+			if (spriteAtlas.progress >= 0.9f)
+			{
+				_chara_0 = new GameObject("SpeakerCharacter");
+				var script = _chara_0.AddComponent<SpeakerCharacter>();
+				script.SetSpriteAtlas(spriteAtlas.asset as SpriteAtlas);
+			}
+
+			yield return null;
+		}
+	}
 	void Update() {
 		// 文字の表示が完了してるならクリック時に次の行を表示する
 		if (IsCompleteDisplayText) {
@@ -83,8 +113,6 @@ public class TextController : MonoBehaviour
 			{
 				while (!sr.EndOfStream)
 				{
-
-
 					//1行づつ読み取る。カンマも読み取っている。
 					string line = sr.ReadLine();
 

@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: kohaku
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 0
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 5e5a2e368c48f2d41812de0e17c93be2, type: 3}
+    totalSpriteSurfaceArea: 19909122
+    bindAsDefault: 0
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 44a0dcb29ab3c7143b65fe2cd873ca1a, type: 3}
+  - {fileID: 21300000, guid: a8251fe4b4a20e94398713e187a9c411, type: 3}
+  - {fileID: 21300000, guid: 8949b775e519f1e44a03ed6ce6dce7ee, type: 3}
+  - {fileID: 21300000, guid: b97138f5d440104478a0cd3b08bdd759, type: 3}
+  - {fileID: 21300000, guid: eec17307af6f69b41aea16dd2178e637, type: 3}
+  - {fileID: 21300000, guid: 1037aa2edb00e5e40a4e2c4d5b8766b3, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - portrait_kohaku_05
+  - portrait_kohaku_03
+  - portrait_kohaku_04
+  - portrait_kohaku_02
+  - portrait_kohaku_01
+  - portrait_kohaku_06
+  m_Tag: kohaku
+  m_IsVariant: 0
