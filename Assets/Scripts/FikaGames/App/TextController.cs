@@ -20,8 +20,9 @@ public class TextController : MonoBehaviour
 	private float timeElapsed = 1;
 	private int currentLine = 0;
 	private int lastUpdateCharacter = -1;
-
-
+	public Canvas _canvas;
+	GameObject _windowObj;
+	private Text _windowText;
 	// 文字の表示が完了しているかどうか
 	public bool IsCompleteDisplayText {
 		get {
@@ -30,6 +31,7 @@ public class TextController : MonoBehaviour
 	}
 	SpriteAtlas _spriteAtlas;
 	private GameObject _chara_0;
+	script _script;
 	void Start() {
 		string filePath = Util.GetScenarioFilePath("test.csv");
 		LoadScenario(filePath);
@@ -37,7 +39,21 @@ public class TextController : MonoBehaviour
 
 		_chara_0 = new GameObject("SpeakerCharacter");
 		var script = _chara_0.AddComponent<SpeakerCharacter>();
+		//_chara_0.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
 
+		GameObject obj = (GameObject)Resources.Load("Prefab/window");
+		GameObject instance = (GameObject)Instantiate(obj,
+													  new Vector3(0.0f, 0.0f, 0.0f),
+													  Quaternion.identity);
+		instance.transform.SetParent(_canvas.transform, false);
+		_script = instance.GetComponent<script>();
+//		instance.transform.position = new Vector3(350.0f, 150.0f, 0.0f);
+		_script.SetWH(300.0f, 100.0f);
+		
+
+		//_windowObj = new GameObject("window");
+		//_windowObj.AddComponent<Window>();
+		//_windowObj.transform.SetParent(_canvas.transform);
 //		_spriteAtlas = Resources.Load<SpriteAtlas>("Character/kohaku");
 //		script.SetSpriteAtlas(_spriteAtlas);
 		//_chara_0 = new GameObject("SpeakerCharacter");
@@ -82,11 +98,13 @@ public class TextController : MonoBehaviour
 		if (displayCharacterCount != lastUpdateCharacter) {
 			if (currentText != "")
 			{
-				uiText.text = currentText.Substring(0, displayCharacterCount);
+//				uiText.text = currentText.Substring(0, displayCharacterCount);
+				_script.SetText(currentText.Substring(0, displayCharacterCount));
 			}
 			else
 			{
-				uiText.text = "";
+//				uiText.text = "";
+				_script.SetText("");
 			}
 
 			lastUpdateCharacter = displayCharacterCount;

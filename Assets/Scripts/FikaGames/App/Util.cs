@@ -20,4 +20,15 @@ static class Util
 	{
 		return GetDataScenarioPath() + "/" + fileName;
 	}
+
+
+
+	/*
+	public static GameObject CreateGameObject<T>(string name, T script)
+	{
+		GameObject obj = new GameObject(name);
+		obj.AddComponent<T>();
+		return obj;
+	}
+	*/
 }

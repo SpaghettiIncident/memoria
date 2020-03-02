@@ -24,7 +24,8 @@ public class SpeakerCharacter : MonoBehaviour
 		_spriteAtlas = Resources.Load<SpriteAtlas>("Character/kohaku");
 		_body.sprite = _spriteAtlas.GetSprite("portrait_kohaku_01");
 
-		this.gameObject.transform.position = new Vector3(25.0f, 3.0f, 20.0f);
+		this.gameObject.transform.position = new Vector3(3.0f, -1.5f, 5.0f);
+		this.gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 1.0f);
 
 	}
 

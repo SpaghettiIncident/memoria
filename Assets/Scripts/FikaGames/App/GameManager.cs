@@ -46,6 +46,8 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
 					_main_state = STATE.UPDATE;
 				})
 			);
+
+
 	}
 
     void Update()
