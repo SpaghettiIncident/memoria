@@ -23,44 +23,39 @@ public class TextController : MonoBehaviour
 	public Canvas _canvas;
 	GameObject _windowObj;
 	private Text _windowText;
+
+	SpriteAtlas _spriteAtlas;
+	private GameObject _chara_0;
+	script _script;
+
 	// 文字の表示が完了しているかどうか
 	public bool IsCompleteDisplayText {
 		get {
 			return Time.time > timeElapsed + timeUntilDisplay;
 		}
 	}
-	SpriteAtlas _spriteAtlas;
-	private GameObject _chara_0;
-	script _script;
+
 	void Start() {
+		// テキストファイル読み込み
 		string filePath = Util.GetScenarioFilePath("test.csv");
 		LoadScenario(filePath);
+
+		// セリフのセット
 		SetNextLine();
 
+		// 話者の生成
 		_chara_0 = new GameObject("SpeakerCharacter");
 		var script = _chara_0.AddComponent<SpeakerCharacter>();
-		//_chara_0.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
 
+		// windowプレファブの読み込み
 		GameObject obj = (GameObject)Resources.Load("Prefab/window");
 		GameObject instance = (GameObject)Instantiate(obj,
 													  new Vector3(0.0f, 0.0f, 0.0f),
 													  Quaternion.identity);
 		instance.transform.SetParent(_canvas.transform, false);
 		_script = instance.GetComponent<script>();
-//		instance.transform.position = new Vector3(350.0f, 150.0f, 0.0f);
-		_script.SetWH(300.0f, 100.0f);
+		_script.SetWH();
 		
-
-		//_windowObj = new GameObject("window");
-		//_windowObj.AddComponent<Window>();
-		//_windowObj.transform.SetParent(_canvas.transform);
-//		_spriteAtlas = Resources.Load<SpriteAtlas>("Character/kohaku");
-//		script.SetSpriteAtlas(_spriteAtlas);
-		//_chara_0 = new GameObject("SpeakerCharacter");
-		//var script = _chara_0.AddComponent<SpeakerCharacter>();
-		//script.SetSpriteAtlas(spriteAtlas);
-
-		//		StartCoroutine(load());
 	}
 
 	IEnumerator load()
@@ -79,7 +74,10 @@ public class TextController : MonoBehaviour
 			yield return null;
 		}
 	}
+
 	void Update() {
+		Debug.Log("w" + Screen.width);
+		Debug.Log("h" + Screen.height);
 		// 文字の表示が完了してるならクリック時に次の行を表示する
 		if (IsCompleteDisplayText) {
 			if (currentLine < _scenarioDataList.Count && Input.GetMouseButtonDown(0))

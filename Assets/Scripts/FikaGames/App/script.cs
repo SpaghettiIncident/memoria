@@ -10,24 +10,34 @@ public class script : MonoBehaviour
 
 	public void SetText(string text)
 	{
+
 		_text.text = text;
 	}
 
-	public void SetWH(float width, float height)
+	public void SetWH()
 	{
-		var rect = _image.GetComponent<RectTransform>().rect;
-		rect.width = width;
-		rect.height = height;
+
+//		rect.height = height;
 	}
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
+		_image = transform.GetChild(0).gameObject.GetComponent<Image>();
+		//		_text.text = text;
+		var sd = _image.GetComponent<RectTransform>().sizeDelta;
+		//		var t = Screen.width;
+		sd.x = Screen.width;
+
+//		_image.GetComponent<RectTransform>().sizeDelta = sd;
+	}
 
     // Update is called once per frame
     void Update()
     {
-        
-    }
+		var sd = _image.GetComponent<RectTransform>().sizeDelta;
+		//		var t = Screen.width;
+		sd.x = Screen.width;
+
+//		_image.GetComponent<RectTransform>().sizeDelta = sd;
+	}
 }
